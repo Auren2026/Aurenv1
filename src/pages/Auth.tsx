@@ -56,13 +56,16 @@ export default function Auth() {
 
       if (authError) throw authError;
 
-      if (authData.user) {
+      // Verificar se o usuário foi realmente criado
+      if (authData.user && authData.user.id) {
+        console.log('✅ Usuário criado:', authData.user.id);
+        
+        // Tentar criar o perfil do cliente
         const { error: profileError } = await supabase
           .from('customer_profiles')
           .insert({
             user_id: authData.user.id,
             full_name: name,
-            email: email, // Adicionar o email aqui
             phone,
             address,
             nif: nif || null,
@@ -70,7 +73,14 @@ export default function Auth() {
             status: 'pending'
           });
 
-        if (profileError) throw profileError;
+        if (profileError) {
+          console.error('❌ Erro ao criar perfil:', profileError);
+          throw new Error(`Erro ao criar perfil: ${profileError.message}`);
+        }
+
+        console.log('✅ Perfil criado com status: pending');
+      } else {
+        throw new Error('Usuário não foi criado corretamente');
       }
 
       toast.success(t("auth.accountCreated"));
@@ -82,6 +92,7 @@ export default function Auth() {
       setNif("");
       setCommunity("");
     } catch (error: any) {
+      console.error('❌ Erro no cadastro:', error);
       toast.error(error.message || t("auth.errorCreatingAccount"));
     } finally {
       setIsLoading(false);

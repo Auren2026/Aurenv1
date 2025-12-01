@@ -12,23 +12,37 @@ export const useCustomerStatus = () => {
   useEffect(() => {
     const fetchCustomerStatus = async () => {
       if (!user) {
+        console.log('🔍 use-customer-status: Usuário não encontrado');
         setStatus(null);
         setIsLoading(false);
         return;
       }
 
+      console.log('🔍 use-customer-status: Buscando status para user:', user.id);
+
       try {
         const { data, error } = await supabase
           .from('customer_profiles')
-          .select('status')
+          .select('status, full_name')
           .eq('user_id', user.id)
           .maybeSingle();
 
-        if (error) throw error;
+        if (error) {
+          console.error('❌ Erro ao buscar status:', error);
+          throw error;
+        }
+
+        console.log('🔍 use-customer-status: Dados encontrados:', data);
         
-        setStatus(data?.status || null);
+        if (data) {
+          console.log(`✅ Status encontrado: ${data.status} para ${data.full_name}`);
+          setStatus(data.status);
+        } else {
+          console.log('⚠️ Nenhum perfil encontrado para este usuário');
+          setStatus(null);
+        }
       } catch (error) {
-        console.error('Error fetching customer status:', error);
+        console.error('❌ Error fetching customer status:', error);
         setStatus(null);
       } finally {
         setIsLoading(false);
