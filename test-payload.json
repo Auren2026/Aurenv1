@@ -1,0 +1,17 @@
+{
+  "orderNumber": "TEST-2025-001",
+  "customerName": "Cliente Teste",
+  "customerEmail": "gabrielvettorazzii@gmail.com",
+  "totalAmount": 50,
+  "currency": "EUR",
+  "items": [
+    {
+      "name": "Produto Teste",
+      "quantity": 2,
+      "price": 25
+    }
+  ],
+  "customerPhone": "+351912345678",
+  "customerAddress": "Rua Teste 100, Lisboa",
+  "notes": "Teste de envio"
+}

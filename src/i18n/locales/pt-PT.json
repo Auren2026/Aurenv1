@@ -1,0 +1,6 @@
+{
+  "approval": {
+    "pending": "A sua conta está a aguardar aprovação.\nAguarde ou contacte o suporte.",
+    "blocked": "A sua conta está bloqueada ou inativa.\nContacte o suporte."
+  }
+}

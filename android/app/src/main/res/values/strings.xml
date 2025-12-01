@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AUREN</string>
+    <string name="title_activity_main">AUREN</string>
+    <string name="package_name">com.auren.app</string>
+    <string name="custom_url_scheme">com.auren.app</string>
+</resources>
