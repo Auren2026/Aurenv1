@@ -132,7 +132,7 @@ const CategoryProducts = () => {
       <Header />
       
       <div className="bg-primary text-primary-foreground py-4 px-4 text-center">
-        <h1 className="text-xl font-semibold">{t("admin.products")}</h1>
+        <h1 className="text-xl font-semibold">{category?.name || t("admin.products")}</h1>
       </div>
 
       <main className="container mx-auto">
