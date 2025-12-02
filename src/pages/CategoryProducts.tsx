@@ -72,7 +72,7 @@ const CategoryProducts = () => {
 
   useEffect(() => {
     if (subcategories && subcategories.length > 0 && !activeTab) {
-      setActiveTab(subcategories[0].id);
+      setActiveTab("all"); // Definir "all" como padrão para mostrar todos os produtos
     }
   }, [subcategories, activeTab]);
 
@@ -125,6 +125,8 @@ const CategoryProducts = () => {
     (products || []).filter(p => p.subcategory_id === subcategoryId)
   );
 
+  const getAllProducts = () => products || [];
+
   return (
     <div className="min-h-screen bg-background pb-20">
       <Header />
@@ -138,6 +140,14 @@ const CategoryProducts = () => {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="sticky top-16 z-40 bg-background border-b border-border overflow-x-auto no-scrollbar">
               <TabsList className="w-full justify-start rounded-none h-auto p-0 bg-transparent">
+                {/* Aba "Todos os Produtos" */}
+                <TabsTrigger
+                  value="all"
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-3 whitespace-nowrap font-semibold"
+                >
+                  {t("category.allProducts")}
+                </TabsTrigger>
+                {/* Abas das subcategorias */}
                 {subcategories.map((subcategory) => (
                   <TabsTrigger
                     key={subcategory.id}
@@ -150,6 +160,37 @@ const CategoryProducts = () => {
               </TabsList>
             </div>
 
+            {/* Conteúdo da aba "Todos os Produtos" */}
+            <TabsContent value="all" className="mt-0">
+              <div className="grid grid-cols-2 gap-4 p-4">
+                {getAllProducts().length === 0 && (
+                  <p className="col-span-2 text-sm text-muted-foreground">{t("category.noProducts")}</p>
+                )}
+                {getAllProducts().map((product) => (
+                  <div 
+                    key={product.id}
+                    ref={(el) => {
+                      if (el) productRefs.current[product.id] = el;
+                    }}
+                  >
+                    <ProductCard
+                      id={product.id}
+                      name={product.name}
+                      code={product.code}
+                      imageUrl={product.image_url || undefined}
+                      price={Number(product.price_per_unit ?? 0)}
+                      oldPrice={product.old_price ? Number(product.old_price) : undefined}
+                      unitsPerBox={product.units_per_box}
+                      isNew={product.is_new || false}
+                      expiryDate={product.expiry_date || undefined}
+                      currency={product.currency || 'CHF'}
+                    />
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            {/* Conteúdo das abas das subcategorias */}
             {subcategories.map((subcategory) => (
               <TabsContent key={subcategory.id} value={subcategory.id} className="mt-0">
                 <div className="grid grid-cols-2 gap-4 p-4">
