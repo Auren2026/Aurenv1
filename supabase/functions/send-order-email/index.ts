@@ -77,7 +77,7 @@ function buildHtml(body: OrderEmailRequest) {
 }
 
 async function sendEmail(html: string, subject: string, to: string[]) {
-  console.log('📧 Tentando enviar email...');
+  console.log('📧 Tentando enviar email... (v2)');
   console.log('RESEND_API_KEY exists:', !!RESEND_API_KEY);
   console.log('SENDER_EMAIL:', SENDER_EMAIL);
   console.log('Recipients:', to);
