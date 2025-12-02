@@ -15,7 +15,7 @@ interface OrderEmailRequest {
   notes?: string | null;
 }
 
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') || 're_cCYZvpf8_Gp7dXG17Prkr2zDiNeeRhEYc';
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
 const SENDER_EMAIL = Deno.env.get('SENDER_EMAIL') || 'info@aurenecom.shop';
 const COMPANY_ORDER_EMAIL = Deno.env.get('COMPANY_ORDER_EMAIL');
 const DEFAULT_CURRENCY = Deno.env.get('DEFAULT_CURRENCY') || 'EUR';
@@ -23,6 +23,7 @@ const DEFAULT_CURRENCY = Deno.env.get('DEFAULT_CURRENCY') || 'EUR';
 // Debug logs
 console.log('🔍 Environment check:');
 console.log('RESEND_API_KEY exists:', !!RESEND_API_KEY);
+console.log('RESEND_API_KEY value:', RESEND_API_KEY ? 'PRESENTE' : 'AUSENTE');
 console.log('SENDER_EMAIL:', SENDER_EMAIL);
 console.log('COMPANY_ORDER_EMAIL:', COMPANY_ORDER_EMAIL);
 console.log('DEFAULT_CURRENCY:', DEFAULT_CURRENCY);
