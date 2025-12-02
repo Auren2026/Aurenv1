@@ -16,7 +16,7 @@ interface OrderEmailRequest {
 }
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
-const SENDER_EMAIL = Deno.env.get('SENDER_EMAIL') || 'info@aurenmk.shop';
+const SENDER_EMAIL = Deno.env.get('SENDER_EMAIL') || 'onboarding@resend.dev';
 const COMPANY_ORDER_EMAIL = Deno.env.get('COMPANY_ORDER_EMAIL');
 const DEFAULT_CURRENCY = Deno.env.get('DEFAULT_CURRENCY') || 'EUR';
 
