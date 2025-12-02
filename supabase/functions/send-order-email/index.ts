@@ -136,3 +136,4 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ error: e.message || 'Erro interno'}), { status:500, headers:{ 'Content-Type':'application/json', ...corsHeaders } });
   }
 });
+// Updated ter 02 dez 2025 12:54:01 -03
