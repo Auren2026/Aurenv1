@@ -137,3 +137,4 @@ Deno.serve(async (req) => {
   }
 });
 // Updated ter 02 dez 2025 12:54:01 -03
+console.log('🔥 NOVA API KEY TEST:', new Date().toISOString());
