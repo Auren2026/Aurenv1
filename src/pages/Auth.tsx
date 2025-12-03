@@ -58,8 +58,6 @@ export default function Auth() {
 
       // Verificar se o usuário foi realmente criado
       if (authData.user && authData.user.id) {
-        console.log('✅ Usuário criado:', authData.user.id);
-        
         // Tentar criar o perfil do cliente
         const { error: profileError } = await supabase
           .from('customer_profiles')
@@ -77,8 +75,6 @@ export default function Auth() {
           console.error('❌ Erro ao criar perfil:', profileError);
           throw new Error(`Erro ao criar perfil: ${profileError.message}`);
         }
-
-        console.log('✅ Perfil criado com status: pending');
       } else {
         throw new Error('Usuário não foi criado corretamente');
       }

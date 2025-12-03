@@ -10,15 +10,6 @@ export function RequireApproval({ children }: { children: JSX.Element }) {
   const location = useLocation();
   const { t } = useTranslation();
 
-  // Debug logging
-  console.log('🔍 RequireApproval:', {
-    user: user?.id,
-    status,
-    isLoading,
-    statusLoading,
-    location: location.pathname
-  });
-
   if (isLoading || statusLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -28,12 +19,10 @@ export function RequireApproval({ children }: { children: JSX.Element }) {
   }
 
   if (!user) {
-    console.log('❌ RequireApproval: Usuário não autenticado, redirecionando para /auth');
     return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
   if (status === "pending") {
-    console.log('⏳ RequireApproval: Status pending, mostrando tela de espera');
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
@@ -48,7 +37,6 @@ export function RequireApproval({ children }: { children: JSX.Element }) {
   }
 
   if (status === "blocked" || status === "inactive") {
-    console.log('🚫 RequireApproval: Usuário bloqueado/inativo');
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
         <p className="text-lg font-semibold text-center text-red-600">
@@ -59,10 +47,8 @@ export function RequireApproval({ children }: { children: JSX.Element }) {
   }
 
   if (status !== "approved") {
-    console.log('❌ RequireApproval: Status não aprovado:', status);
     return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
-  console.log('✅ RequireApproval: Usuário aprovado, renderizando conteúdo');
   return children;
 }

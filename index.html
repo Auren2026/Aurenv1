@@ -40,10 +40,10 @@
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-              console.log('Service Worker registado com sucesso:', registration.scope);
+              // Service Worker registered
             })
             .catch((error) => {
-              console.log('Falha ao registar Service Worker:', error);
+              // Service Worker registration failed
             });
         });
       }

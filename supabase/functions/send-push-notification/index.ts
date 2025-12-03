@@ -196,8 +196,6 @@ Deno.serve(async (req) => {
     const successCount = results.filter(r => r.status === 'fulfilled').length;
     const failCount = results.filter(r => r.status === 'rejected').length;
 
-    console.log(`Push notifications sent: ${successCount} success, ${failCount} failed`);
-
     return new Response(
       JSON.stringify({
         success: true,

@@ -12,13 +12,10 @@ export const useCustomerStatus = () => {
   useEffect(() => {
     const fetchCustomerStatus = async () => {
       if (!user) {
-        console.log('🔍 use-customer-status: Usuário não encontrado');
         setStatus(null);
         setIsLoading(false);
         return;
       }
-
-      console.log('🔍 use-customer-status: Buscando status para user:', user.id);
 
       try {
         const { data, error } = await supabase
@@ -31,14 +28,10 @@ export const useCustomerStatus = () => {
           console.error('❌ Erro ao buscar status:', error);
           throw error;
         }
-
-        console.log('🔍 use-customer-status: Dados encontrados:', data);
         
         if (data) {
-          console.log(`✅ Status encontrado: ${data.status} para ${data.full_name}`);
           setStatus(data.status);
         } else {
-          console.log('⚠️ Nenhum perfil encontrado para este usuário');
           setStatus(null);
         }
       } catch (error) {

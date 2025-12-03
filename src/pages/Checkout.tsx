@@ -188,14 +188,6 @@ export default function Checkout() {
       if (itemsError) throw itemsError;
 
       // Tentar enviar email, mas não bloquear o pedido se falhar
-      console.log('📧 Iniciando envio de emails...');
-      console.log('📧 Dados do pedido:', {
-        orderId: order_id,
-        customerName: createdOrderTyped.customer_name,
-        customerEmail: createdOrderTyped.customer_email,
-        orderNumber: createdOrderTyped.order_number,
-      });
-      
       try {
         await sendOrderEmails({
           orderId: order_id,
@@ -209,7 +201,6 @@ export default function Checkout() {
           customerAddress: insertPayload.customer_address,
           notes: insertPayload.notes,
         });
-        console.log('✅ Emails enviados com sucesso!');
       } catch (emailError: any) {
         console.error('⚠️ Erro ao enviar email:', emailError);
         console.error('⚠️ Detalhes do erro:', emailError?.message || emailError);

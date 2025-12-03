@@ -81,8 +81,6 @@ async function sendEmail(html: string, subject: string, to: string[]) {
       body: JSON.stringify({ from: SENDER_EMAIL, to, subject, html })
     });
     const responseText = await resp.text();
-    console.log('Resend response status:', resp.status);
-    console.log('Resend response:', responseText);
     
     if (!resp.ok) {
       console.error('Resend falhou:', resp.status, responseText);
