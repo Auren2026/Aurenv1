@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 210 50% 25%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 50% 25%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 50% 25%;
+
+    /* Navy blue from AUREN logo */
+    --primary: 210 50% 25%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Gold from AUREN logo */
+    --secondary: 43 45% 58%;
+    --secondary-foreground: 210 50% 25%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 210 50% 25%;
+
+    /* Success green for badges */
+    --success: 120 100% 33%;
+    --success-foreground: 0 0% 100%;
+
+    /* Price colors */
+    --price-normal: 210 50% 25%;
+    --price-promo: 43 45% 58%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 0 0% 10%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 210 50% 25%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 43 45% 58%;
+    --secondary-foreground: 210 50% 25%;
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 210 50% 25%;
+
+    --success: 120 100% 33%;
+    --success-foreground: 0 0% 100%;
+
+    --price-normal: 0 0% 85%;
+    --price-promo: 43 55% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* iOS PWA Safe Area Support */
+.safe-area-inset-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-inset-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-inset-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* iOS PWA Full Height Support */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Utility to hide native scrollbars while keeping scrolling enabled */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
