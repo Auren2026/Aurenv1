@@ -15,20 +15,11 @@ interface OrderEmailRequest {
   notes?: string | null;
 }
 
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') || 're_VtYSh4GP_638k9hHrBQ3KR3QnV5rgfmzu';
 const SENDER_EMAIL = Deno.env.get('SENDER_EMAIL') || 'info@aurenecom.shop';
-const COMPANY_ORDER_EMAIL = Deno.env.get('COMPANY_ORDER_EMAIL');
+const COMPANY_ORDER_EMAIL = Deno.env.get('COMPANY_ORDER_EMAIL') || 'info@emporiopt.ch';
 const DEFAULT_CURRENCY = Deno.env.get('DEFAULT_CURRENCY') || 'EUR';
 
-// Debug logs
-console.log('🔍 Environment check:');
-console.log('RESEND_API_KEY exists:', !!RESEND_API_KEY);
-console.log('RESEND_API_KEY value:', RESEND_API_KEY ? 'PRESENTE' : 'AUSENTE');
-console.log('SENDER_EMAIL:', SENDER_EMAIL);
-console.log('COMPANY_ORDER_EMAIL:', COMPANY_ORDER_EMAIL);
-console.log('DEFAULT_CURRENCY:', DEFAULT_CURRENCY);
-
-// Cabeçalhos CORS comuns
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -78,13 +69,9 @@ function buildHtml(body: OrderEmailRequest) {
 }
 
 async function sendEmail(html: string, subject: string, to: string[]) {
-  console.log('📧 Tentando enviar email... (v2)');
-  console.log('RESEND_API_KEY exists:', !!RESEND_API_KEY);
-  console.log('SENDER_EMAIL:', SENDER_EMAIL);
-  console.log('Recipients:', to);
   
   if (!RESEND_API_KEY) {
-    console.error('❌ RESEND_API_KEY ausente');
+    console.error('A RESEND_API_KEY NÃO ESTÁ DEFINIDA BURRO!');
     return { ok:false, error:'RESEND_API_KEY ausente' };
   }
   try {
@@ -98,12 +85,12 @@ async function sendEmail(html: string, subject: string, to: string[]) {
     console.log('Resend response:', responseText);
     
     if (!resp.ok) {
-      console.error('❌ Resend falhou:', resp.status, responseText);
+      console.error('Resend falhou:', resp.status, responseText);
       return { ok:false, error:`Resend falhou ${resp.status}: ${responseText}` };
     }
     return { ok:true, data: JSON.parse(responseText) };
   } catch (e:any) {
-    console.error('❌ Erro ao chamar Resend:', e);
+    console.error('Erro ao chamar Resend:', e);
     return { ok:false, error:`Falha requisição Resend: ${e.message}` };
   }
 }
@@ -124,7 +111,6 @@ Deno.serve(async (req) => {
     const html = buildHtml(payload);
     const subject = `Bestellbestätigung ${payload.orderNumber}`;
     
-    // Envia para cliente e admin (quando domínio estiver verificado)
     const recipients = [payload.customerEmail, COMPANY_ORDER_EMAIL].filter(Boolean) as string[];
     
     if (recipients.length < 1) {
@@ -137,5 +123,4 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ error: e.message || 'Erro interno'}), { status:500, headers:{ 'Content-Type':'application/json', ...corsHeaders } });
   }
 });
-// Updated ter 02 dez 2025 12:54:01 -03
-console.log('🔥 NOVA API KEY TEST:', new Date().toISOString());
+
