@@ -15,9 +15,9 @@ interface OrderEmailRequest {
   notes?: string | null;
 }
 
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') || 're_VtYSh4GP_638k9hHrBQ3KR3QnV5rgfmzu';
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
 const SENDER_EMAIL = Deno.env.get('SENDER_EMAIL') || 'info@aurenecom.shop';
-const COMPANY_ORDER_EMAIL = Deno.env.get('COMPANY_ORDER_EMAIL') || 'info@emporiopt.ch';
+const COMPANY_ORDER_EMAIL = Deno.env.get('COMPANY_ORDER_EMAIL');
 const DEFAULT_CURRENCY = Deno.env.get('DEFAULT_CURRENCY') || 'EUR';
 
 const corsHeaders = {
