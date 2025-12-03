@@ -16,8 +16,19 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    
+    signingConfigs {
+        release {
+            storeFile file('auren-release-key.keystore')
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "auren2024"
+            keyAlias "auren"
+            keyPassword System.getenv("KEY_PASSWORD") ?: "auren2024"
+        }
+    }
+    
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
