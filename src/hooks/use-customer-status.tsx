@@ -18,11 +18,18 @@ export const useCustomerStatus = () => {
       }
 
       try {
-        const { data, error } = await supabase
+        // Timeout de 5 segundos
+        const timeoutPromise = new Promise<never>((_, reject) => 
+          setTimeout(() => reject(new Error('Customer status timeout')), 5000)
+        );
+        
+        const statusPromise = supabase
           .from('customer_profiles')
           .select('status, full_name')
           .eq('user_id', user.id)
           .maybeSingle();
+
+        const { data, error } = await Promise.race([statusPromise, timeoutPromise]);
 
         if (error) {
           console.error('❌ Erro ao buscar status:', error);

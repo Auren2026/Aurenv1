@@ -49,7 +49,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const checkAdminStatus = async (userId: string) => {
     try {
-      const { data, error } = await supabase.rpc('is_admin', { user_id: userId });
+      // Timeout de 5 segundos para evitar travamento
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Admin check timeout')), 5000)
+      );
+      
+      const adminCheckPromise = supabase.rpc('is_admin', { user_id: userId });
+      
+      const { data, error } = await Promise.race([adminCheckPromise, timeoutPromise]);
+      
       if (!error && data) {
         setIsAdmin(true);
       } else {
