@@ -159,7 +159,7 @@ const Cart = () => {
                       )}
                     </p>
                     <p className="text-sm text-muted-foreground mb-1">
-                      {t("cart.quantity")}: {item.quantity}
+                      {item.quantity}
                     </p>
                     <p className="font-bold text-price-promo">
                       {formatPrice(item.price)} CHF
