@@ -8,6 +8,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
+import { formatPrice } from "@/lib/format-price";
 
 // Componente para controle de quantidade B2B
 const QuantityControl = ({ productId, currentQuantity, onQuantityChange }: {
@@ -151,14 +152,21 @@ const Cart = () => {
                   <div className="flex-1">
                     <h3 className="font-medium line-clamp-2 mb-1">{item.name}</h3>
                     <p className="text-sm text-muted-foreground mb-2">
-                      {item.unitsPerBox} {t("cart.unitsPerBox")}
+                      {item.sellByBox && item.unitsInBox ? (
+                        <>{item.unitsInBox} {t("cart.unitsPerBox")}</>
+                      ) : (
+                        <>{item.unitsPerBox} {t("cart.unitsPerBox")}</>
+                      )}
+                    </p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      {t("cart.quantity")}: {item.quantity}
                     </p>
                     <p className="font-bold text-price-promo">
-                      {item.price.toFixed(2)} CHF
+                      {formatPrice(item.price)} CHF
                     </p>
                   </div>
 
-                  <div className="flex flex-col items-end justify-between">
+                  <div className="flex items-start">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -168,12 +176,6 @@ const Cart = () => {
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
-
-                    <QuantityControl
-                      productId={item.productId}
-                      currentQuantity={item.quantity}
-                      onQuantityChange={updateQuantity}
-                    />
                   </div>
                 </div>
               </CardContent>
@@ -183,10 +185,10 @@ const Cart = () => {
 
         <div className="fixed bottom-[60px] left-0 right-0 bg-background border-t border-border p-4 shadow-lg safe-area-inset-bottom">
           <div className="max-w-screen-xl mx-auto">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-lg font-semibold">{t("cart.total")}:</span>
-              <span className="text-2xl font-bold text-price-promo">
-                {totalAmount.toFixed(2)} CHF
+            <div className="flex items-center justify-between gap-4 mb-4">
+              <span className="text-base sm:text-lg font-semibold whitespace-nowrap">{t("cart.total")}:</span>
+              <span className="text-lg sm:text-2xl font-bold text-price-promo text-right break-all">
+                {formatPrice(totalAmount)} CHF
               </span>
             </div>
             

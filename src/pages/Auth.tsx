@@ -64,6 +64,7 @@ export default function Auth() {
           .insert({
             user_id: authData.user.id,
             full_name: name,
+            email: email,
             phone,
             address,
             nif: nif || null,

@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { useCustomerStatus } from "@/hooks/use-customer-status";
+import { formatPrice } from "@/lib/format-price";
 
 interface LocationState {
   orderId?: string;
@@ -472,14 +473,19 @@ export default function Checkout() {
                 <CardContent className="space-y-4">
                   {items.map((item) => (
                     <div key={item.id} className="flex justify-between text-sm">
-                      <span>{item.name} x{item.quantity}</span>
-                      <span>{(item.price * item.quantity).toFixed(2)} CHF</span>
+                      <span>
+                        {item.name} x{item.quantity}
+                        {item.sellByBox && item.unitsInBox && (
+                          <span className="text-muted-foreground ml-1">({item.unitsInBox} un/cx)</span>
+                        )}
+                      </span>
+                      <span>{formatPrice(item.price * item.quantity)} CHF</span>
                     </div>
                   ))}
                   <div className="border-t pt-4">
                     <div className="flex justify-between font-bold">
                       <span>{t("checkout.total")}:</span>
-                      <span>{totalAmount.toFixed(2)} CHF</span>
+                      <span>{formatPrice(totalAmount)} CHF</span>
                     </div>
                   </div>
                 </CardContent>

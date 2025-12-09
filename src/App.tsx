@@ -13,6 +13,7 @@ import Checkout from "./pages/Checkout";
 import Account from "./pages/Account";
 import Auth from "./pages/Auth";
 import MyOrders from "./pages/MyOrders";
+import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 import { RequireApproval } from "@/components/RequireApproval";
 import { usePushNotifications } from "@/hooks/use-push-notifications";
@@ -108,6 +109,14 @@ const App = () => (
               element={
                 <RequireApproval>
                   <MyOrders />
+                </RequireApproval>
+              }
+            />
+            <Route
+              path="/favorites"
+              element={
+                <RequireApproval>
+                  <Favorites />
                 </RequireApproval>
               }
             />

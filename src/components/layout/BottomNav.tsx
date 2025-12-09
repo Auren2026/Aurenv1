@@ -1,4 +1,4 @@
-import { Gift, ShoppingCart, User } from "lucide-react";
+import { Gift, ShoppingCart, User, Heart } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useCart } from "@/hooks/use-cart";
 import { useTranslation } from "react-i18next";
@@ -10,7 +10,7 @@ export const BottomNav = () => {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border safe-area-inset-bottom">
       <div className="w-full max-w-screen-xl mx-auto">
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-4">
           <NavLink
             to="/"
             className="flex flex-col items-center justify-center py-3 text-muted-foreground hover:text-primary transition-colors min-h-[60px]"
@@ -32,6 +32,15 @@ export const BottomNav = () => {
               </span>
             )}
             <span className="text-xs font-medium">{t("bottomNav.cart")}</span>
+          </NavLink>
+
+          <NavLink
+            to="/favorites"
+            className="flex flex-col items-center justify-center py-3 text-muted-foreground hover:text-primary transition-colors min-h-[60px]"
+            activeClassName="text-primary"
+          >
+            <Heart className="h-6 w-6 mb-1" />
+            <span className="text-xs font-medium">{t("bottomNav.favorites")}</span>
           </NavLink>
 
           <NavLink

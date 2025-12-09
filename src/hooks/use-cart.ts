@@ -10,6 +10,8 @@ export interface CartItem {
   unitsPerBox: number;
   quantity: number;
   imageUrl?: string;
+  sellByBox?: boolean;
+  unitsInBox?: number;
 }
 
 interface CartStore {
@@ -42,7 +44,9 @@ export const useCart = create<CartStore>()(
                 : i
             );
           } else {
-            newItems = [...state.items, { ...item, quantity, id: crypto.randomUUID() }];
+            // Gerar ID único sem depender de crypto.randomUUID
+            const randomId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            newItems = [...state.items, { ...item, quantity, id: randomId }];
           }
           
           const totalItems = newItems.reduce((sum, item) => sum + item.quantity, 0);

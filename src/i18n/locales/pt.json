@@ -40,6 +40,7 @@
   "bottomNav": {
     "home": "Início",
     "cart": "Carrinho",
+    "favorites": "Favoritos",
     "account": "Conta",
     "balance": "Saldo"
   },
@@ -286,6 +287,10 @@
     "noCustomersFound": "Nenhum cliente encontrado",
     "statusUpdated": "Estado do cliente atualizado com sucesso",
     "errorUpdating": "Erro ao atualizar estado do cliente",
+    "deleteCustomer": "Excluir Cliente",
+    "deleteCustomerConfirm": "Tem certeza que deseja excluir o cliente {{name}}? Esta ação não pode ser desfeita.",
+    "customerDeleted": "Cliente excluído com sucesso",
+    "errorDeleting": "Erro ao excluir cliente",
     "statusPending": "Pendente",
     "statusApproved": "Aprovado",
     "statusInactive": "Inativo",
@@ -317,9 +322,15 @@
     "selectSubcategory": "Selecione uma subcategoria",
     "pricePerUnit": "Preço por Unidade",
     "oldPrice": "Preço Anterior (promoção)",
+    "quantity": "Quantidade",
     "unitsPerBoxLabel": "Unidades/Caixa",
     "minOrderLabel": "Encomenda Mínima",
     "stock": "Stock",
+    "sellByBox": "Vender por Caixa",
+    "boxQuantity": "Quantidade de Caixas",
+    "boxQuantityHelp": "Quantas caixas o cliente pode comprar",
+    "unitsInBox": "Unidades por Caixa",
+    "unitsInBoxHelp": "Quantas unidades do produto vão dentro de cada caixa",
     "expiryDate": "Data de Validade (MHD)",
     "category": "Categoria",
     "price": "Preço",
@@ -365,6 +376,17 @@
     "statusProcessing": "A Processar",
     "statusCompleted": "Concluída",
     "statusCancelled": "Cancelada"
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "subtitle": "Repita as suas compras favoritas",
+    "noOrders": "Ainda não tem encomendas nos favoritos",
+    "items": "Itens",
+    "repeatOrder": "Repetir Encomenda",
+    "orderRepeated": "Encomenda repetida!",
+    "itemsAddedToCart": "{{count}} produto(s) adicionado(s) ao carrinho",
+    "noProductsAvailable": "Nenhum produto disponível para repetir",
+    "errorRepeating": "Erro ao repetir encomenda. Tente novamente."
   },
   "saldo": {
     "title": "Saldo",

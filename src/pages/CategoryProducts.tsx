@@ -35,7 +35,7 @@ const CategoryProducts = () => {
   interface ProductRow {
     id: string; name: string; code: string; image_url: string | null; price_per_unit: number | null;
     old_price: number | null; units_per_box: number | null; is_new: boolean | null; expiry_date: string | null;
-    currency: string | null; subcategory_id: string;
+    currency: string | null; subcategory_id: string; sell_by_box: boolean | null; units_in_box: number | null;
   }
 
   const { data: subcategories, isLoading: subcategoriesLoading, error: subcategoriesError } = useQuery<SubcategoryRow[]>({
@@ -61,7 +61,7 @@ const CategoryProducts = () => {
         .from("products")
         .select(`
           id,name,code,image_url,price_per_unit,old_price,units_per_box,is_new,expiry_date,currency,subcategory_id,
-          subcategories!inner(category_id)
+          sell_by_box,units_in_box,subcategories!inner(category_id)
         `)
         .eq("subcategories.category_id", categoryId)
         .eq("is_active", true);
@@ -178,12 +178,14 @@ const CategoryProducts = () => {
                       name={product.name}
                       code={product.code}
                       imageUrl={product.image_url || undefined}
-                      price={Number(product.price_per_unit ?? 0)}
-                      oldPrice={product.old_price ? Number(product.old_price) : undefined}
+                      price={Number(product.price_per_unit ?? 0) / 100}
+                      oldPrice={product.old_price ? Number(product.old_price) / 100 : undefined}
                       unitsPerBox={product.units_per_box}
                       isNew={product.is_new || false}
                       expiryDate={product.expiry_date || undefined}
                       currency={product.currency || 'CHF'}
+                      sellByBox={product.sell_by_box || false}
+                      unitsInBox={product.units_in_box || 0}
                     />
                   </div>
                 ))}
@@ -209,12 +211,14 @@ const CategoryProducts = () => {
                         name={product.name}
                         code={product.code}
                         imageUrl={product.image_url || undefined}
-                        price={Number(product.price_per_unit ?? 0)}
-                        oldPrice={product.old_price ? Number(product.old_price) : undefined}
+                        price={Number(product.price_per_unit ?? 0) / 100}
+                        oldPrice={product.old_price ? Number(product.old_price) / 100 : undefined}
                         unitsPerBox={product.units_per_box}
                         isNew={product.is_new || false}
                         expiryDate={product.expiry_date || undefined}
                         currency={product.currency || 'CHF'}
+                        sellByBox={product.sell_by_box || false}
+                        unitsInBox={product.units_in_box || 0}
                       />
                     </div>
                   ))}

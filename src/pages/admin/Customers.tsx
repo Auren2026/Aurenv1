@@ -8,8 +8,19 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { CheckCircle, XCircle, Ban, RotateCcw } from "lucide-react";
+import { CheckCircle, XCircle, Ban, RotateCcw, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type CustomerStatus = 'pending' | 'approved' | 'inactive' | 'blocked';
 
@@ -63,6 +74,25 @@ const Customers = () => {
     }
   });
 
+  const deleteCustomerMutation = useMutation({
+    mutationFn: async (userId: string) => {
+      const { error } = await supabase
+        .from('customer_profiles')
+        .delete()
+        .eq('user_id', userId);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+      toast.success(t('customers.customerDeleted'));
+    },
+    onError: (error) => {
+      toast.error(t('customers.errorDeleting'));
+      console.error(error);
+    }
+  });
+
   const getStatusBadge = (status: CustomerStatus) => {
     const variants = {
       pending: { label: t('customers.statusPending'), variant: 'secondary' as const },
@@ -82,10 +112,10 @@ const Customers = () => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>{t('common.name')}</TableHead>
+          <TableHead>{t('customers.business')}</TableHead>     
           <TableHead>{t('customers.email')}</TableHead>
+          <TableHead>{t('common.name')}</TableHead>
           <TableHead>{t('customers.phone')}</TableHead>
-          <TableHead>{t('customers.business')}</TableHead>
           <TableHead>{t('customers.nif')}</TableHead>
           <TableHead>{t('customers.status')}</TableHead>
           <TableHead>{t('customers.actions')}</TableHead>
@@ -101,14 +131,14 @@ const Customers = () => {
         ) : (
           customers.map((customer) => (
             <TableRow key={customer.id}>
-              <TableCell className="font-medium">{customer.full_name}</TableCell>
+              <TableCell className="font-medium">{customer.community}</TableCell>
               <TableCell>
                 <div className="text-sm">{customer.email || '-'}</div>
               </TableCell>
               <TableCell>
-                <div className="text-sm">{customer.phone}</div>
+                <div className="text-sm">{customer.full_name}</div>
               </TableCell>
-              <TableCell>{customer.community}</TableCell>
+              <TableCell>{customer.phone}</TableCell>
               <TableCell>{customer.nif || '-'}</TableCell>
               <TableCell>{getStatusBadge(customer.status)}</TableCell>
               <TableCell>
@@ -208,6 +238,34 @@ const Customers = () => {
                         <Ban className="h-4 w-4 mr-1" />
                         {t('customers.block')}
                       </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="text-destructive hover:text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>{t('customers.deleteCustomer')}</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              {t('customers.deleteCustomerConfirm', { name: customer.full_name })}
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => deleteCustomerMutation.mutate(customer.user_id)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              {t('common.delete')}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </>
                   )}
                 />

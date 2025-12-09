@@ -40,6 +40,7 @@
   "bottomNav": {
     "home": "Startseite",
     "cart": "Warenkorb",
+    "favorites": "Favoriten",
     "account": "Konto",
     "balance": "Guthaben"
   },
@@ -282,6 +283,10 @@
     "noCustomersFound": "Keine Kunden gefunden",
     "statusUpdated": "Kundenstatus erfolgreich aktualisiert",
     "errorUpdating": "Fehler beim Aktualisieren des Kundenstatus",
+    "deleteCustomer": "Kunde löschen",
+    "deleteCustomerConfirm": "Sind Sie sicher, dass Sie den Kunden {{name}} löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "customerDeleted": "Kunde erfolgreich gelöscht",
+    "errorDeleting": "Fehler beim Löschen des Kunden",
     "statusPending": "Ausstehend",
     "statusApproved": "Genehmigt",
     "statusInactive": "Inaktiv",
@@ -313,9 +318,15 @@
     "selectSubcategory": "Unterkategorie auswählen",
     "pricePerUnit": "Preis pro Einheit",
     "oldPrice": "Alter Preis (Aktion)",
+    "quantity": "Menge",
     "unitsPerBoxLabel": "Einheiten/Karton",
     "minOrderLabel": "Mindestbestellung",
     "stock": "Bestand",
+    "sellByBox": "Verkauf nach Karton",
+    "boxQuantity": "Kartonanzahl",
+    "boxQuantityHelp": "Wie viele Kartons der Kunde kaufen kann",
+    "unitsInBox": "Einheiten pro Karton",
+    "unitsInBoxHelp": "Wie viele Produkteinheiten in jedem Karton enthalten sind",
     "expiryDate": "Mindesthaltbarkeit (MHD)",
     "category": "Kategorie",
     "price": "Preis",
@@ -365,6 +376,17 @@
     "statusProcessing": "In Bearbeitung",
     "statusCompleted": "Abgeschlossen",
     "statusCancelled": "Storniert"
+  },
+  "favorites": {
+    "title": "Favoriten",
+    "subtitle": "Wiederholen Sie Ihre Lieblingsbestellungen",
+    "noOrders": "Sie haben noch keine Bestellungen in den Favoriten",
+    "items": "Artikel",
+    "repeatOrder": "Bestellung wiederholen",
+    "orderRepeated": "Bestellung wiederholt!",
+    "itemsAddedToCart": "{{count}} Produkt(e) zum Warenkorb hinzugefügt",
+    "noProductsAvailable": "Keine Produkte zum Wiederholen verfügbar",
+    "errorRepeating": "Fehler beim Wiederholen der Bestellung. Bitte versuchen Sie es erneut."
   },
   "saldo": {
     "title": "Guthaben",

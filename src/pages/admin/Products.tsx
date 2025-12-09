@@ -30,6 +30,8 @@ export default function AdminProducts() {
     price_per_unit: 0,
     old_price: null as number | null,
     units_per_box: 1,
+    sell_by_box: false,
+    units_in_box: null as number | null,
     is_new: false,
     is_promotion: false,
     is_active: true,
@@ -131,6 +133,8 @@ export default function AdminProducts() {
       price_per_unit: 0,
       old_price: null,
       units_per_box: 1,
+      sell_by_box: false,
+      units_in_box: null,
       is_new: false,
       is_promotion: false,
       is_active: true,
@@ -161,6 +165,8 @@ export default function AdminProducts() {
       price_per_unit: product.price_per_unit,
       old_price: product.old_price,
       units_per_box: product.units_per_box,
+      sell_by_box: product.sell_by_box || false,
+      units_in_box: product.units_in_box || null,
       is_new: product.is_new,
       is_promotion: product.is_promotion,
       is_active: product.is_active,
@@ -264,12 +270,24 @@ export default function AdminProducts() {
                       <Label htmlFor="price">{t("products.pricePerUnit")} *</Label>
                       <Input
                         id="price"
-                        type="number"
-                        step="0.01"
-                        value={formData.price_per_unit}
-                        onChange={(e) =>
-                          setFormData({ ...formData, price_per_unit: parseFloat(e.target.value) })
-                        }
+                        type="text"
+                        inputMode="numeric"
+                        value={formData.price_per_unit 
+                          ? (() => {
+                              const value = (formData.price_per_unit / 100).toFixed(2);
+                              const [integer, decimal] = value.split('.');
+                              const formattedInteger = integer.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                              return `${formattedInteger},${decimal}`;
+                            })()
+                          : "0,00"}
+                        onChange={(e) => {
+                          // Remove tudo exceto números
+                          const digits = e.target.value.replace(/\D/g, '');
+                          // Converte para centavos (sempre 2 casas decimais)
+                          const numValue = digits === "" ? 0 : parseInt(digits);
+                          setFormData({ ...formData, price_per_unit: numValue });
+                        }}
+                        placeholder="0,00"
                         required
                       />
                     </div>
@@ -277,22 +295,34 @@ export default function AdminProducts() {
                       <Label htmlFor="old_price">{t("products.oldPrice")}</Label>
                       <Input
                         id="old_price"
-                        type="number"
-                        step="0.01"
-                        value={formData.old_price || ""}
-                        onChange={(e) =>
+                        type="text"
+                        inputMode="numeric"
+                        value={formData.old_price 
+                          ? (() => {
+                              const value = (formData.old_price / 100).toFixed(2);
+                              const [integer, decimal] = value.split('.');
+                              const formattedInteger = integer.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                              return `${formattedInteger},${decimal}`;
+                            })()
+                          : ""}
+                        onChange={(e) => {
+                          // Remove tudo exceto números
+                          const digits = e.target.value.replace(/\D/g, '');
+                          // Converte para centavos ou null
+                          const numValue = digits === "" ? null : parseInt(digits);
                           setFormData({
                             ...formData,
-                            old_price: e.target.value ? parseFloat(e.target.value) : null,
-                          })
-                        }
+                            old_price: numValue,
+                          });
+                        }}
+                        placeholder="0,00"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-3 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="units">{t("products.unitsPerBoxLabel")} *</Label>
+                      <Label htmlFor="units">{t("products.quantity")} *</Label>
                       <Input
                         id="units"
                         type="number"
@@ -300,6 +330,7 @@ export default function AdminProducts() {
                         onChange={(e) =>
                           setFormData({ ...formData, units_per_box: parseInt(e.target.value) })
                         }
+                        placeholder="Ex: 500"
                         required
                       />
                     </div>
@@ -325,6 +356,44 @@ export default function AdminProducts() {
                         }
                       />
                     </div>
+                  </div>
+
+                  {/* Configuração de Venda por Caixa */}
+                  <div className="border-t pt-4 mt-4">
+                    <div className="flex items-center space-x-2 mb-4">
+                      <Switch
+                        id="sell_by_box"
+                        checked={formData.sell_by_box}
+                        onCheckedChange={(checked) =>
+                          setFormData({ ...formData, sell_by_box: checked })
+                        }
+                      />
+                      <Label htmlFor="sell_by_box" className="font-semibold">
+                        {t("products.sellByBox")}
+                      </Label>
+                    </div>
+
+                    {formData.sell_by_box && (
+                      <div className="pl-4 border-l-2 border-primary/20">
+                        <div className="space-y-2 max-w-md">
+                          <Label htmlFor="units_in_box">{t("products.unitsInBox")} *</Label>
+                          <Input
+                            id="units_in_box"
+                            type="number"
+                            min="1"
+                            value={formData.units_in_box || ""}
+                            onChange={(e) =>
+                              setFormData({ ...formData, units_in_box: parseInt(e.target.value) || null })
+                            }
+                            placeholder="Ex: 12"
+                            required={formData.sell_by_box}
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            {t("products.unitsInBoxHelp")}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -410,7 +479,14 @@ export default function AdminProducts() {
                       <TableCell className="text-sm">
                         {product.subcategories?.categories?.name} - {product.subcategories?.name}
                       </TableCell>
-                      <TableCell>CHF {product.price_per_unit.toFixed(2)}</TableCell>
+                      <TableCell>
+                        CHF {(() => {
+                          const value = (product.price_per_unit / 100).toFixed(2);
+                          const [integer, decimal] = value.split('.');
+                          const formattedInteger = integer.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                          return `${formattedInteger},${decimal}`;
+                        })()}
+                      </TableCell>
                       <TableCell>{product.stock_quantity || 0}</TableCell>
                       <TableCell>
                         {product.is_active ? (

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/command";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { formatPrice } from "@/lib/format-price";
 
 export const SearchBar = () => {
   const [open, setOpen] = useState(false);
@@ -109,7 +110,7 @@ export const SearchBar = () => {
                         </div>
                       </div>
                       <span className="font-bold text-primary">
-                        {product.currency} {product.price_per_unit.toFixed(2)}
+                        {product.currency} {formatPrice(product.price_per_unit / 100)}
                       </span>
                     </CommandItem>
                   ))}

@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2, ShoppingBag, Calendar, CreditCard, Package, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR, de } from "date-fns/locale";
+import { formatPrice } from "@/lib/format-price";
 
 interface Order {
   id: string;
@@ -138,7 +139,7 @@ const MyOrders = () => {
                       <span className="text-muted-foreground">{t("orders.total")}:</span>
                     </div>
                     <span className="text-lg font-bold text-primary">
-                      {order.currency} {order.total_amount.toFixed(2)}
+                      {order.currency} {formatPrice(order.total_amount)}
                     </span>
                   </div>
 
