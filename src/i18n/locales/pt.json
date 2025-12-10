@@ -379,8 +379,10 @@
   },
   "favorites": {
     "title": "Favoritos",
-    "subtitle": "Repita as suas compras favoritas",
-    "noOrders": "Ainda não tem encomendas nos favoritos",
+    "subtitle": "Os seus produtos favoritos",
+    "noFavorites": "Ainda não tem produtos nos favoritos",
+    "addedToFavorites": "Adicionado aos favoritos!",
+    "removedFromFavorites": "Removido dos favoritos",
     "items": "Itens",
     "repeatOrder": "Repetir Encomenda",
     "orderRepeated": "Encomenda repetida!",

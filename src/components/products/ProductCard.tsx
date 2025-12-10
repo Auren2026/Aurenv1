@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, Heart } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
+import { useFavorites } from "@/hooks/use-favorites";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { memo, useState, useRef, useEffect } from "react";
@@ -37,11 +38,14 @@ export const ProductCard = memo(({
   unitsInBox = 0
 }: ProductCardProps) => {
   const { addItem } = useCart();
+  const { toggleFavorite, isFavorite } = useFavorites();
   const { t } = useTranslation();
   const [quantity, setQuantity] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState('1');
   const inputRef = useRef<HTMLInputElement>(null);
+  
+  const isProductFavorite = isFavorite(id);
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
@@ -53,6 +57,24 @@ export const ProductCard = memo(({
   // Calcular o preço considerando venda por caixa
   const displayPrice = sellByBox && unitsInBox > 0 ? price * unitsInBox : price;
   const displayOldPrice = sellByBox && unitsInBox > 0 && oldPrice ? oldPrice * unitsInBox : oldPrice;
+
+  const handleToggleFavorite = () => {
+    toggleFavorite({
+      id,
+      name,
+      code,
+      price: displayPrice,
+      imageUrl: imageUrl || '',
+      unitsPerBox,
+      sellByBox,
+      unitsInBox
+    });
+    toast.success(
+      isProductFavorite 
+        ? t('favorites.removedFromFavorites') 
+        : t('favorites.addedToFavorites')
+    );
+  };
 
   const handleAddToCart = () => {
     addItem({
@@ -117,6 +139,18 @@ export const ProductCard = memo(({
 
   return (
     <Card className="relative overflow-hidden">
+      {/* Botão de Favorito */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-2 right-2 z-10 h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
+        onClick={handleToggleFavorite}
+      >
+        <Heart 
+          className={`h-4 w-4 ${isProductFavorite ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`}
+        />
+      </Button>
+
       {isNew && (
         <div className="absolute top-0 left-0 z-10">
           <div className="bg-success text-success-foreground px-8 py-1 transform -rotate-45 -translate-x-6 translate-y-2 shadow-md">

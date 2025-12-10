@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Plus, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
@@ -22,6 +22,7 @@ export default function AdminProducts() {
   const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     code: "",
@@ -76,6 +77,18 @@ export default function AdminProducts() {
       if (error) throw error;
       return data;
     },
+  });
+
+  // Filtrar produtos com base na busca
+  const filteredProducts = products?.filter((product: any) => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      product.code?.toLowerCase().includes(query) ||
+      product.name?.toLowerCase().includes(query) ||
+      product.subcategories?.name?.toLowerCase().includes(query) ||
+      product.subcategories?.categories?.name?.toLowerCase().includes(query)
+    );
   });
 
   const createMutation = useMutation({
@@ -456,6 +469,17 @@ export default function AdminProducts() {
             </Dialog>
           </CardHeader>
           <CardContent>
+            {/* Campo de Busca */}
+            <div className="mb-4 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder={t("common.search")}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+
             {isLoading ? (
               <p>{t("common.loading")}</p>
             ) : (
@@ -472,7 +496,7 @@ export default function AdminProducts() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {products?.map((product: any) => (
+                  {filteredProducts?.map((product: any) => (
                     <TableRow key={product.id}>
                       <TableCell className="font-mono text-sm">{product.code}</TableCell>
                       <TableCell className="font-medium">{product.name}</TableCell>

@@ -379,8 +379,10 @@
   },
   "favorites": {
     "title": "Favoriten",
-    "subtitle": "Wiederholen Sie Ihre Lieblingsbestellungen",
-    "noOrders": "Sie haben noch keine Bestellungen in den Favoriten",
+    "subtitle": "Ihre Lieblingsprodukte",
+    "noFavorites": "Sie haben noch keine Produkte in den Favoriten",
+    "addedToFavorites": "Zu Favoriten hinzugefügt!",
+    "removedFromFavorites": "Aus Favoriten entfernt",
     "items": "Artikel",
     "repeatOrder": "Bestellung wiederholen",
     "orderRepeated": "Bestellung wiederholt!",
