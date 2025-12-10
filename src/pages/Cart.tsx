@@ -53,16 +53,16 @@ const QuantityControl = ({ productId, currentQuantity, onQuantityChange }: {
   };
 
   return (
-    <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+    <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5">
       <Button
         variant="ghost"
         size="icon"
-        className="h-8 w-8 rounded"
+        className="h-6 w-6 rounded"
         onClick={decrementQuantity}
         disabled={currentQuantity <= 1}
         aria-label={t("cart.decreaseQuantity")}
       >
-        <Minus className="h-4 w-4" />
+        <Minus className="h-3 w-3" />
       </Button>
       
       <Input
@@ -72,7 +72,7 @@ const QuantityControl = ({ productId, currentQuantity, onQuantityChange }: {
         onChange={(e) => handleInputChange(e.target.value)}
         onBlur={handleInputBlur}
         onKeyDown={handleInputKeyDown}
-        className="w-16 h-8 text-center border-0 bg-background rounded font-semibold"
+        className="w-10 h-6 text-center text-xs border-0 bg-background rounded font-semibold p-0"
         min="1"
         max="999"
         aria-label={t("cart.quantity")}
@@ -81,12 +81,12 @@ const QuantityControl = ({ productId, currentQuantity, onQuantityChange }: {
       <Button
         variant="ghost"
         size="icon"
-        className="h-8 w-8 rounded"
+        className="h-6 w-6 rounded"
         onClick={incrementQuantity}
         disabled={currentQuantity >= 999}
         aria-label={t("cart.increaseQuantity")}
       >
-        <Plus className="h-4 w-4" />
+        <Plus className="h-3 w-3" />
       </Button>
     </div>
   );
@@ -141,15 +141,15 @@ const Cart = () => {
                     <img
                       src={item.imageUrl}
                       alt={item.name}
-                      className="w-20 h-20 object-contain rounded bg-muted"
+                      className="w-20 h-20 object-contain rounded bg-muted flex-shrink-0"
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded bg-muted flex items-center justify-center text-muted-foreground text-xs">
+                    <div className="w-20 h-20 rounded bg-muted flex items-center justify-center text-muted-foreground text-xs flex-shrink-0">
                       {t("common.noImage")}
                     </div>
                   )}
 
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <h3 className="font-medium line-clamp-2 mb-1">{item.name}</h3>
                     <p className="text-sm text-muted-foreground mb-2">
                       {item.sellByBox && item.unitsInBox ? (
@@ -158,15 +158,21 @@ const Cart = () => {
                         <>{item.unitsPerBox} {t("cart.unitsPerBox")}</>
                       )}
                     </p>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      {item.quantity}
-                    </p>
+                    
+                    <div className="mb-2 inline-block">
+                      <QuantityControl
+                        productId={item.productId}
+                        currentQuantity={item.quantity}
+                        onQuantityChange={updateQuantity}
+                      />
+                    </div>
+                    
                     <p className="font-bold text-price-promo">
                       {formatPrice(item.price)} CHF
                     </p>
                   </div>
 
-                  <div className="flex items-start">
+                  <div className="flex items-start flex-shrink-0">
                     <Button
                       variant="ghost"
                       size="icon"
